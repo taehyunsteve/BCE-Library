@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bukti Peminjaman - Perpustakaan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-accent: #172554;
+            --accent-btn: #0284c7;
+            --bg-main: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --success-bg: #dcfce7;
+            --success-text: #15803d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container {
+            width: 100%;
+            max-width: 540px;
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-accent));
+            color: white;
+            padding: 26px 32px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-btn);
+        }
+        .header h1 { font-size: 1.45rem; font-weight: 700; }
+        .content { padding: 30px 32px; }
+        .receipt-card {
+            background: #f8fafc;
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .receipt-row:last-child { border-bottom: none; }
+        .receipt-label { color: var(--text-muted); font-weight: 500; }
+        .receipt-value { font-weight: 600; color: var(--text-main); text-align: right; }
+        .badge-status {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .btn-action {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Bukti Peminjaman Berhasil</h1>
+    </div>
+    <div class="content">
+        <div class="receipt-card">
+            <div class="receipt-row">
+                <span class="receipt-label">ID Transaksi</span>
+                <span class="receipt-value" th:text="${bukti.idTransaksi}">T12345678</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Nama Anggota</span>
+                <span class="receipt-value" th:text="${bukti.namaAnggota}">Nama Anggota</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Judul Buku</span>
+                <span class="receipt-value" th:text="${bukti.judulBuku}">Judul Buku</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Tanggal Pinjam</span>
+                <span class="receipt-value" th:text="${bukti.tanggalPinjam}">2026-11-01</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Status</span>
+                <span class="receipt-value">
+                    <span class="badge-status" th:text="${bukti.status}">DIPINJAM</span>
+                </span>
+            </div>
+        </div>
+        <a href="/pinjam" class="btn-action">Pinjam Buku Lain</a>
+    </div>
+</div>
+</body>
+</html>

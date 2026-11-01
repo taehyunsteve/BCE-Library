@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Buku - Perpustakaan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-accent: #172554;
+            --accent-btn: #0284c7;
+            --accent-btn-hover: #0369a1;
+            --bg-main: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --success-bg: #dcfce7;
+            --success-text: #15803d;
+            --danger-bg: #fee2e2;
+            --danger-text: #b91c1c;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container {
+            width: 100%;
+            max-width: 820px;
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-accent));
+            color: white;
+            padding: 26px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--accent-btn);
+        }
+        .header h1 { font-size: 1.45rem; font-weight: 700; }
+        .btn-add {
+            background-color: var(--accent-btn);
+            color: white;
+            text-decoration: none;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-add:hover { background-color: var(--accent-btn-hover); }
+        .content { padding: 30px 32px; }
+        .search-box { margin-bottom: 22px; }
+        .search-form { display: flex; gap: 10px; }
+        .search-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .search-input:focus { border-color: var(--accent-btn); }
+        .btn-search {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .table-container {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th {
+            background-color: #f8fafc;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        td { padding: 15px 18px; border-bottom: 1px solid #e2e8f0; font-size: 0.95rem; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #f8fafc; }
+        .badge-stok {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .stok-ada { background-color: var(--success-bg); color: var(--success-text); }
+        .stok-habis { background-color: var(--danger-bg); color: var(--danger-text); }
+        .footer-nav { display: flex; gap: 22px; justify-content: flex-end; }
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Daftar Buku</h1>
+        <a href="/buku/tambah" class="btn-add">+ Tambah Buku</a>
+    </div>
+    <div class="content">
+        <div class="search-box">
+            <form th:action="@{/buku}" method="get" class="search-form">
+                <input type="text" name="kata" th:value="${kata}" placeholder="Cari judul buku..." class="search-input" />
+                <button type="submit" class="btn-search">Cari</button>
+            </form>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">ID</th>
+                        <th>Judul Buku</th>
+                        <th style="width: 120px; text-align: center;">Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="buku : ${daftarBuku}">
+                        <td style="color: var(--text-muted); font-weight: 600;" th:text="${buku.idBuku}">B001</td>
+                        <td style="font-weight: 600;" th:text="${buku.judul}">Judul Buku</td>
+                        <td style="text-align: center;">
+                            <span th:text="${buku.stok}"
+                                  th:class="${buku.stok > 0} ? 'badge-stok stok-ada' : 'badge-stok stok-habis'">0</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="footer-nav">
+            <a href="/pinjam" class="nav-link">&larr; Halaman Pinjam</a>
+            <a href="/anggota" class="nav-link">Lihat Anggota &rarr;</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
